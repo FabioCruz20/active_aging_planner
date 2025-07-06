@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container mx-auto">
+  <div>
+    <h1 class="text-2xl font-bold">Nova Ação</h1>
+    <a href="{% url 'actions:list' %}" class="text-sm text-blue-500">Voltar</a>
+  </div>
+  
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button class="px-2 py-1 bg-indigo-500 text-white">Salvar</button>
+  </form>
+</div>
+{% endblock %}
