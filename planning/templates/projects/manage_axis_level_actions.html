@@ -49,12 +49,25 @@
                                             class="form-control grow border border-gray-300 rounded px-2 py-1" 
                                             id="selected_action_name" 
                                             name="selected_action_name"
+                                            onchange="toggleCustomInput()"
                                             required>
                                             <option value="">-- Selecione uma ação --</option>
                                             {% for action in available_actions_to_add %}
                                                 <option value="{{ action.name }}">{{ action.name }}</option>
                                             {% endfor %}
+                                            <option value="custom">Criar ação personalizada</option>
                                         </select>
+                                    </div>
+                                    
+                                    <!-- Campo para ação personalizada -->
+                                    <div class="form-group flex gap-x-3 mb-3" id="custom_action_div" style="display: none;">
+                                        <label for="custom_action_name" class="font-medium">Nome da Ação:</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control grow border border-gray-300 rounded px-2 py-1" 
+                                            id="custom_action_name" 
+                                            name="custom_action_name"
+                                            placeholder="Digite o nome da nova ação">
                                     </div>
                                 </div>
                                 <div class="col-md-4 basis-1/3">
@@ -68,10 +81,32 @@
                             </div>
                         </form>
                     {% else %}
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
-                            Todas as ações disponíveis para esta combinação de eixo e nível já foram adicionadas.
-                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row flex">
+                                <div class="col-md-8 basis-2/3">
+                                    <div class="form-group flex gap-x-3 mb-3">
+                                        <label for="custom_action_name" class="font-medium">Nome da Nova Ação:</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control grow border border-gray-300 rounded px-2 py-1" 
+                                            id="custom_action_name" 
+                                            name="custom_action_name"
+                                            placeholder="Digite o nome da nova ação"
+                                            required>
+                                        <input type="hidden" name="selected_action_name" value="custom">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 basis-1/3">
+                                    <div class="form-group">
+                                        <button type="submit" name="add_action" 
+                                            class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">
+                                            <i class="fas fa-plus"></i> Criar Ação
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     {% endif %}
                 </div>
             </div>
@@ -80,12 +115,12 @@
             <div class="card border border-gray-300 p-3 shadow-md">
                 <div class="card-header border-b border-gray-300 p-1">
                     <h5 class="mb-0">
-                        <i class="fas fa-list"></i> Ações Existentes
-                        <span class="badge badge-primary ml-2">{{ added_actions.count }}</span>
+                        <i class="fas fa-list"></i> Ações do Projeto
+                        <span class="badge badge-primary ml-2">{{ project_actions|length }}</span>
                     </h5>
                 </div>
                 <div class="card-body">
-                    {% if added_actions %}
+                    {% if project_actions %}
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -95,17 +130,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for action in added_actions %}
+                                    {% for project_action in project_actions %}
                                     <tr>
-                                        <td>{{ action.name }}</td>
+                                        <td>{{ project_action.action.name }}</td>
                                         <td>
                                             <form method="post" style="display: inline;">
                                                 {% csrf_token %}
-                                                <input type="hidden" name="action_id" value="{{ action.id }}">
+                                                <input type="hidden" name="project_action_id" value="{{ project_action.id }}">
                                                 <button type="submit" 
                                                         name="delete_action" 
                                                         class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Tem certeza que deseja remover esta ação?')">
+                                                        onclick="return confirm('Tem certeza que deseja remover esta ação do projeto?')">
                                                     <i class="fas fa-trash"></i> Remover
                                                 </button>
                                             </form>
@@ -118,7 +153,7 @@
                     {% else %}
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle"></i>
-                            Nenhuma ação foi criada ainda para esta combinação de eixo e nível.
+                            Nenhuma ação foi adicionada ainda a este projeto para esta combinação de eixo e nível.
                             Use o formulário acima para adicionar a primeira ação.
                         </div>
                     {% endif %}
@@ -127,4 +162,21 @@
         </div>
     </div>
 </div>
+
+<script>
+function toggleCustomInput() {
+    const selectElement = document.getElementById('selected_action_name');
+    const customDiv = document.getElementById('custom_action_div');
+    const customInput = document.getElementById('custom_action_name');
+    
+    if (selectElement.value === 'custom') {
+        customDiv.style.display = 'block';
+        customInput.required = true;
+    } else {
+        customDiv.style.display = 'none';
+        customInput.required = false;
+        customInput.value = '';
+    }
+}
+</script>
 {% endblock %}

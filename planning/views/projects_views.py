@@ -167,21 +167,24 @@ def manage_axis_level_actions_view(request, project_id, axis_id, level_id):
     axis = get_object_or_404(models.Axis, pk=axis_id)
     level = get_object_or_404(models.Level, pk=level_id)
     
-    # Buscar todas as ações já adicionadas para este eixo e nível
-    added_actions = models.Action.objects.filter(axis=axis, level=level)
+    # Buscar todas as ações já adicionadas para este projeto, eixo e nível
+    project_actions = models.ProjectAction.objects.filter(
+        project=project, axis=axis, level=level
+    ).select_related('action')
+    added_actions = [pa.action for pa in project_actions]
     
     # Buscar ações disponíveis que ainda não foram adicionadas
     # (ações únicas de outros projetos para a mesma combinação eixo/nível)
     all_possible_actions = models.Action.objects.filter(
         axis=axis, 
         level=level
-    ).values('name').distinct().order_by('name')
+    ).distinct().order_by('name')
     
-    # Filtrar apenas as ações que ainda não foram adicionadas
-    added_action_names = set(added_actions.values_list('name', flat=True))
+    # Filtrar apenas as ações que ainda não foram adicionadas a este projeto
+    added_action_names = set([action.name for action in added_actions])
     available_actions_to_add = [
         action for action in all_possible_actions 
-        if action['name'] not in added_action_names
+        if action.name not in added_action_names
     ]
     
     # Buscar ou criar ProjectLevelAxis para este projeto, eixo e nível
@@ -194,17 +197,24 @@ def manage_axis_level_actions_view(request, project_id, axis_id, level_id):
     
     if request.method == 'POST':
         selected_action_name = request.POST.get('selected_action_name')
-        action_id = request.POST.get('action_id')
+        custom_action_name = request.POST.get('custom_action_name')
+        project_action_id = request.POST.get('project_action_id')
         
-        if 'add_action' in request.POST and selected_action_name:
-            # Verificar se a ação já existe para evitar duplicatas
-            existing_action = models.Action.objects.filter(
-                name=selected_action_name, axis=axis, level=level
-            ).first()
+        if 'add_action' in request.POST:
+            action_name = selected_action_name if selected_action_name != 'custom' else custom_action_name
             
-            if not existing_action:
-                models.Action.objects.create(
-                    name=selected_action_name,
+            if action_name:
+                # Buscar ou criar a ação
+                action, created = models.Action.objects.get_or_create(
+                    name=action_name,
+                    axis=axis,
+                    level=level
+                )
+                
+                # Criar o vínculo entre projeto e ação (se não existir)
+                models.ProjectAction.objects.get_or_create(
+                    project=project,
+                    action=action,
                     axis=axis,
                     level=level
                 )
@@ -212,11 +222,11 @@ def manage_axis_level_actions_view(request, project_id, axis_id, level_id):
             return redirect('projects:manage_axis_level_actions', 
                           project_id=project_id, axis_id=axis_id, level_id=level_id)
         
-        elif 'delete_action' in request.POST and action_id:
-            # Remover ação
-            action = get_object_or_404(models.Action, pk=action_id)
-            if action.axis == axis and action.level == level:
-                action.delete()
+        elif 'delete_action' in request.POST and project_action_id:
+            # Remover apenas o vínculo entre projeto e ação (não a ação em si)
+            project_action = get_object_or_404(models.ProjectAction, pk=project_action_id)
+            if project_action.project == project and project_action.axis == axis and project_action.level == level:
+                project_action.delete()
             return redirect('projects:manage_axis_level_actions', 
                           project_id=project_id, axis_id=axis_id, level_id=level_id)
     
@@ -225,6 +235,7 @@ def manage_axis_level_actions_view(request, project_id, axis_id, level_id):
         'axis': axis,
         'level': level,
         'added_actions': added_actions,
+        'project_actions': project_actions,
         'available_actions_to_add': available_actions_to_add,
         'project_level_axis': project_level_axis,
     }
