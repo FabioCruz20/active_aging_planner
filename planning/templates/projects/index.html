@@ -31,6 +31,11 @@
                             Editar
                         </a>
                         <a 
+                            href="{% url 'projects:manage_actions_matrix' project_id=project.id %}"
+                            class="px-2 py-1 bg-green-200 mx-2 inline-block">
+                            Matriz de Ações
+                        </a>
+                        <a 
                             href="{% url 'projects:manage_levels' project_id=project.id %}"
                             class="px-2 py-1 bg-gray-200 mx-2 inline-block">
                             Gerenciar

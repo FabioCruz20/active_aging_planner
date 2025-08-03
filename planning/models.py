@@ -33,7 +33,7 @@ class Task(models.Model):
     """"""
     title = models.CharField(max_length=500)
     done = models.BooleanField()
-    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    action = models.ForeignKey(Action, on_delete=models.CASCADE, null=True)
 
 
 class Project(models.Model):
@@ -42,3 +42,17 @@ class Project(models.Model):
     """
     name = models.CharField(max_length=500)
     description = models.TextField()
+    levels = models.ManyToManyField(Level, through='ProjectLevelAxis')
+    axes = models.ManyToManyField(Axis, through='ProjectLevelAxis')
+
+    def __str__(self):
+        return self.name
+
+
+class ProjectLevelAxis(models.Model):
+    """
+    """
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE)
+    axis = models.ForeignKey(Axis, on_delete=models.CASCADE)    
+    progress_percentage = models.FloatField()
