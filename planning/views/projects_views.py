@@ -159,6 +159,93 @@ def manage_actions_matrix_view(request, project_id):
     return render(request, 'projects/manage_actions_matrix.html', context)
 
 
+def manage_tasks_view(request, project_action_id):
+    '''
+    View para gerenciar tarefas de uma ação específica do projeto
+    '''
+    project_action = get_object_or_404(models.ProjectAction, pk=project_action_id)
+    tasks = models.Task.objects.filter(project_action=project_action).order_by('-created_at')
+    
+    # Calcular estatísticas
+    total_tasks = tasks.count()
+    completed_tasks = tasks.filter(status='DONE').count()
+    progress_percentage = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+    
+    context = {
+        'project_action': project_action,
+        'project': project_action.project,
+        'action': project_action.action,
+        'axis': project_action.axis,
+        'level': project_action.level,
+        'tasks': tasks,
+        'total_tasks': total_tasks,
+        'completed_tasks': completed_tasks,
+        'progress_percentage': progress_percentage,
+        'status_choices': models.Task.STATUS_CHOICES,
+    }
+    return render(request, 'projects/manage_tasks.html', context)
+
+
+def create_task_view(request, project_action_id):
+    '''
+    View para criar uma nova tarefa
+    '''
+    project_action = get_object_or_404(models.ProjectAction, pk=project_action_id)
+    
+    if request.method == 'POST':
+        form = forms.TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.project_action = project_action
+            task.save()
+            return redirect('projects:manage_tasks', project_action_id=project_action_id)
+    else:
+        form = forms.TaskForm()
+    
+    context = {
+        'form': form,
+        'project_action': project_action,
+        'project': project_action.project,
+        'action': project_action.action,
+    }
+    return render(request, 'projects/create_task.html', context)
+
+
+def edit_task_view(request, task_id):
+    '''
+    View para editar uma tarefa existente
+    '''
+    task = get_object_or_404(models.Task, pk=task_id)
+    project_action = task.project_action
+    
+    if request.method == 'POST':
+        form = forms.TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('projects:manage_tasks', project_action_id=project_action.id)
+    else:
+        form = forms.TaskForm(instance=task)
+    
+    context = {
+        'form': form,
+        'task': task,
+        'project_action': project_action,
+        'project': project_action.project,
+        'action': project_action.action,
+    }
+    return render(request, 'projects/edit_task.html', context)
+
+
+def delete_task_view(request, task_id):
+    '''
+    View para excluir uma tarefa
+    '''
+    task = get_object_or_404(models.Task, pk=task_id)
+    project_action_id = task.project_action.id
+    task.delete()
+    return redirect('projects:manage_tasks', project_action_id=project_action_id)
+
+
 def manage_axis_level_actions_view(request, project_id, axis_id, level_id):
     '''
     View para gerenciar ações específicas de uma combinação eixo/nível

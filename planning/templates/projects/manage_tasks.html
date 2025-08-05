@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold mb-2">Gerenciar Tarefas</h1>
+        <p class="text-gray-600">
+            Projeto: {{ project.name }} | 
+            Eixo: {{ axis.name }} | 
+            Nível: {{ level.name }} |
+            Ação: {{ action.name }}
+        </p>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-2">Total de Tarefas</h3>
+            <p class="text-3xl font-bold">{{ total_tasks }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-2">Tarefas Concluídas</h3>
+            <p class="text-3xl font-bold">{{ completed_tasks }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold mb-2">Progresso</h3>
+            <p class="text-3xl font-bold">{{ progress_percentage|floatformat:1 }}%</p>
+        </div>
+    </div>
+
+    <!-- Botão Nova Tarefa -->
+    <div class="mb-6">
+        <a href="{% url 'projects:create_task' project_action.id %}" 
+           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fas fa-plus mr-2"></i>Nova Tarefa
+        </a>
+    </div>
+
+    <!-- Lista de Tarefas -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Criada em</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Atualizada em</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Concluída em</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for task in tasks %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {{ task.title }}
+                        {% if task.description %}
+                        <p class="text-sm text-gray-500">{{ task.description|truncatewords:30 }}</p>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {% for status_code, status_label in status_choices %}
+                            {% if task.status == status_code %}
+                                {{ status_label }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ task.created_at|date:"d/m/Y H:i" }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ task.updated_at|date:"d/m/Y H:i" }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {% if task.completed_at %}
+                            {{ task.completed_at|date:"d/m/Y H:i" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <a href="{% url 'projects:edit_task' task.id %}" 
+                           class="text-indigo-600 hover:text-indigo-900 mr-3">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <form action="{% url 'projects:delete_task' task.id %}" 
+                              method="POST" 
+                              class="inline-block"
+                              onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-600 hover:text-red-900">
+                                <i class="fas fa-trash"></i> Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                        Nenhuma tarefa cadastrada.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

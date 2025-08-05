@@ -134,6 +134,10 @@
                                     <tr>
                                         <td>{{ project_action.action.name }}</td>
                                         <td>
+                                            <a href="{% url 'projects:manage_tasks' project_action.id %}" 
+                                               class="btn btn-primary btn-sm mr-2">
+                                                <i class="fas fa-tasks"></i> Tarefas
+                                            </a>
                                             <form method="post" style="display: inline;">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="project_action_id" value="{{ project_action.id }}">
