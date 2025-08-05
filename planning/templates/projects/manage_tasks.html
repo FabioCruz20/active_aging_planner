@@ -3,7 +3,11 @@
 {% block content %}
 <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-        <h1 class="text-3xl font-bold mb-2">Gerenciar Tarefas</h1>
+        <h1 class="text-3xl font-bold">Gerenciar Tarefas</h1>
+        <a href="{% url 'projects:manage_axis_level_actions' project.id axis.id level.id %}" 
+            class="text-blue-500 hover:text-blue-700 mb-2 inline-block">
+            <i class="fas fa-arrow-left"></i>Voltar às Ações
+        </a>
         <p class="text-gray-600">
             Projeto: {{ project.name }} | 
             Eixo: {{ axis.name }} | 
@@ -31,7 +35,7 @@
     <!-- Botão Nova Tarefa -->
     <div class="mb-6">
         <a href="{% url 'projects:create_task' project_action.id %}" 
-           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+           class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
             <i class="fas fa-plus mr-2"></i>Nova Tarefa
         </a>
     </div>

@@ -8,12 +8,13 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="font-bold text-2xl">Gerenciar Ações</h1>
-                <a href="{% url 'projects:manage_actions_matrix' project.id %}" class="btn btn-secondary">
+                <a href="{% url 'projects:manage_actions_matrix' project.id %}" 
+                    class="text-blue-500 hover:text-blue-700">
                     <i class="fas fa-arrow-left"></i> Voltar à Matriz
                 </a>
             </div>
             
-            <div class="card border border-gray-300 p-3 mb-4 shadow-md">
+            <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
                         <strong>Projeto:</strong> {{ project.name }} | 
@@ -30,7 +31,7 @@
             </div>
 
             <!-- Formulário para adicionar ação existente -->
-            <div class="card border border-gray-300 p-3 shadow-md mb-4">
+            <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header">
                     <h5 class="mb-3">
                         <i class="fas fa-plus"></i>
@@ -112,21 +113,21 @@
             </div>
 
             <!-- Lista de ações existentes -->
-            <div class="card border border-gray-300 p-3 shadow-md">
+            <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header border-b border-gray-300 p-1">
                     <h5 class="mb-0">
                         <i class="fas fa-list"></i> Ações do Projeto
                         <span class="badge badge-primary ml-2">{{ project_actions|length }}</span>
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
                     {% if project_actions %}
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped w-full">
                                 <thead>
                                     <tr>
-                                        <th>Nome da Ação</th>
-                                        <th width="120">Ações</th>
+                                        <th class="text-left">Nome da Ação</th>
+                                        <th class="text-left" width="200">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,7 +136,7 @@
                                         <td>{{ project_action.action.name }}</td>
                                         <td>
                                             <a href="{% url 'projects:manage_tasks' project_action.id %}" 
-                                               class="btn btn-primary btn-sm mr-2">
+                                               class="text-indigo-500 mr-2">
                                                 <i class="fas fa-tasks"></i> Tarefas
                                             </a>
                                             <form method="post" style="display: inline;">
@@ -143,7 +144,7 @@
                                                 <input type="hidden" name="project_action_id" value="{{ project_action.id }}">
                                                 <button type="submit" 
                                                         name="delete_action" 
-                                                        class="btn btn-danger btn-sm"
+                                                        class="text-red-600"
                                                         onclick="return confirm('Tem certeza que deseja remover esta ação do projeto?')">
                                                     <i class="fas fa-trash"></i> Remover
                                                 </button>
