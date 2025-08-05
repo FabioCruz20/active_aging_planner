@@ -5,7 +5,7 @@
             <h1 class="font-bold text-2xl mt-2">Projetos</h1>
             <a 
                 href="{% url 'projects:new' %}" 
-                class="px-2 py-1 bg-indigo-500 text-gray-100">
+                class="px-2 py-1 rounded-lg bg-indigo-500 text-gray-100">
                 Novo
             </a>
         </div>
@@ -27,18 +27,13 @@
                     <td class="p-1">
                         <a 
                             href="{% url 'projects:edit' project_id=project.id %}"
-                            class="px-2 py-1 bg-gray-200 inline-block">
+                            class="px-2 rounded-lg py-1 bg-gray-200 inline-block">
                             Editar
                         </a>
                         <a 
                             href="{% url 'projects:manage_actions_matrix' project_id=project.id %}"
-                            class="px-2 py-1 bg-green-200 mx-2 inline-block">
+                            class="px-2 rounded-lg py-1 bg-green-200 mx-2 inline-block">
                             Matriz de Ações
-                        </a>
-                        <a 
-                            href="{% url 'projects:manage_levels' project_id=project.id %}"
-                            class="px-2 py-1 bg-gray-200 mx-2 inline-block">
-                            Gerenciar
                         </a>
                         <form 
                             class="inline"
@@ -46,7 +41,7 @@
                             method="post">
                             {% csrf_token %}
                             <input type="hidden" name="_method" value="delete">
-                            <button class="bg-red-300 px-2 py-1">Excluir</button>
+                            <button class="bg-red-300 rounded-lg px-2 py-1">Excluir</button>
                         </form>
                     </td>
                 </tr>
