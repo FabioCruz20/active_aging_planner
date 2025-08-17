@@ -114,41 +114,44 @@ def manage_actions_matrix_view(request, project_id):
             # Buscar ações para este eixo e nível
             actions = models.Action.objects.filter(axis=axis, level=level)
             
-            # Buscar progresso atual para este projeto, eixo e nível
-            try:
-                project_level_axis = models.ProjectLevelAxis.objects.get(
-                    project=project, axis=axis, level=level
-                )
-                progress = project_level_axis.progress_percentage
-            except models.ProjectLevelAxis.DoesNotExist:
-                progress = 0
+            # Buscar ProjectActions e suas tarefas para calcular o progresso
+            project_actions = models.ProjectAction.objects.filter(
+                project=project,
+                axis=axis,
+                level=level
+            )
+            
+            total_actions = project_actions.count()
+            completed_actions = 0
+            
+            for project_action in project_actions:
+                tasks = models.Task.objects.filter(project_action=project_action)
+                total_tasks = tasks.count()
+                completed_tasks = tasks.filter(status='DONE').count()
                 
+                # Se todas as tarefas da ação estão concluídas, incrementa o contador
+                if total_tasks > 0 and total_tasks == completed_tasks:
+                    completed_actions += 1
+            
+            # Calcular a porcentagem de progresso
+            progress = (completed_actions / total_actions * 100) if total_actions > 0 else 0
+            
+            # Atualizar ou criar o registro de ProjectLevelAxis
+            project_level_axis, _ = models.ProjectLevelAxis.objects.update_or_create(
+                project=project,
+                axis=axis,
+                level=level,
+                defaults={'progress_percentage': progress}
+            )
+            
             matrix[axis][level] = {
                 'actions': actions,
-                'progress': progress
+                'progress': progress,
+                'total_actions': total_actions,
+                'completed_actions': completed_actions
             }
     
-    if request.method == 'POST':
-        # Processar atualizações de progresso
-        for axis in axes:
-            for level in levels:
-                progress_key = f'progress_{axis.id}_{level.id}'
-                if progress_key in request.POST:
-                    progress_value = float(request.POST[progress_key])
-                    
-                    # Criar ou atualizar ProjectLevelAxis
-                    project_level_axis, created = models.ProjectLevelAxis.objects.get_or_create(
-                        project=project,
-                        axis=axis,
-                        level=level,
-                        defaults={'progress_percentage': progress_value}
-                    )
-                    
-                    if not created:
-                        project_level_axis.progress_percentage = progress_value
-                        project_level_axis.save()
-        
-        return redirect('projects:manage_actions_matrix', project_id=project_id)
+    # Removido o processamento POST pois o progresso agora é calculado automaticamente
     
     context = {
         'project': project,
