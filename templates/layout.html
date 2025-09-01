@@ -10,8 +10,8 @@
 <body class="bg-gray-100">
     <header class="w-full bg-indigo-500 p-2 text-white">
         <nav class="container mx-auto flex justify-end gap-x-3">
-            <a href="{% url 'levels:list' %}">Níveis</a>
-            <a href="{% url 'actions:list' %}">Ações</a>
+            <a href="{% url 'projects:manage_actions_matrix' %}">Matriz de ações</a>
+            <a href="{% url 'papers:list' %}">Artigos científicos</a>
         </nav>
     </header>
     {% block content %}

@@ -51,3 +51,20 @@ class TaskForm(forms.ModelForm):
             }),
         }
 
+
+class PaperForm(forms.ModelForm):
+    '''
+    Formulário para criar e editar artigos científicos
+    '''
+    class Meta:
+        model = models.Paper
+        fields = ['title', 'url']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'block w-full mb-4'
+            }),
+            'url': forms.URLInput(attrs={
+                'class': 'block w-full mb-4'
+            }),
+        }
+

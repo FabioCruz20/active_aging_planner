@@ -86,3 +86,17 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Paper(models.Model):
+    """Modelo para representar artigos científicos"""
+    title = models.CharField('Título', max_length=500)
+    url = models.URLField('URL')
+    created_at = models.DateTimeField('Data de criação', auto_now_add=True)
+    updated_at = models.DateTimeField('Data de atualização', auto_now=True)
+
+    class Meta:
+        db_table = 'planning_paper'
+
+    def __str__(self):
+        return self.title
