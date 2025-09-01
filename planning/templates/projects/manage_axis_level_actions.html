@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="font-bold text-2xl">Gerenciar Ações</h1>
-                <a href="{% url 'projects:manage_actions_matrix' project.id %}" 
+                <a href="{% url 'projects:manage_actions_matrix' %}" 
                     class="text-blue-500 hover:text-blue-700">
                     <i class="fas fa-arrow-left"></i> Voltar à Matriz
                 </a>
@@ -17,15 +17,13 @@
             <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <strong>Projeto:</strong> {{ project.name }} | 
                         <strong>Eixo:</strong> {{ axis.name }} | 
                         <strong>Nível:</strong> {{ level.name }}
                     </h5>
                 </div>
                 <div class="card-body">
                     <p class="text-muted">
-                        Gerencie as ações específicas para a combinação {{ axis.name }} / {{ level.name }} 
-                        no projeto {{ project.name }}.
+                        Gerencie as ações específicas para a combinação {{ axis.name }} / {{ level.name }}.
                     </p>
                 </div>
             </div>
@@ -116,7 +114,7 @@
             <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header border-b border-gray-300 p-1">
                     <h5 class="mb-0">
-                        <i class="fas fa-list"></i> Ações do Projeto
+                        <i class="fas fa-list"></i> Ações
                         <span class="badge badge-primary ml-2">{{ project_actions|length }}</span>
                     </h5>
                 </div>
@@ -158,7 +156,7 @@
                     {% else %}
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle"></i>
-                            Nenhuma ação foi adicionada ainda a este projeto para esta combinação de eixo e nível.
+                            Nenhuma ação foi adicionada ainda para esta combinação de eixo e nível.
                             Use o formulário acima para adicionar a primeira ação.
                         </div>
                     {% endif %}

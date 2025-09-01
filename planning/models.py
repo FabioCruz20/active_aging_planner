@@ -19,8 +19,7 @@ class Axis(models.Model):
 
 
 class ProjectLevelAxis(models.Model):
-    """Modelo para representar a relação entre projeto, nível e eixo"""
-    project = models.ForeignKey('Project', on_delete=models.CASCADE)
+    """Modelo para representar a relação entre nível e eixo"""
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     axis = models.ForeignKey(Axis, on_delete=models.CASCADE)
     progress_percentage = models.FloatField(default=0)
@@ -29,18 +28,7 @@ class ProjectLevelAxis(models.Model):
         db_table = 'planning_project_level_axis'
 
     def __str__(self):
-        return f'{self.project.name} - {self.level.name} - {self.axis.name}'
-
-
-class Project(models.Model):
-    """Modelo para representar projetos"""
-    name = models.CharField(max_length=500)
-    description = models.TextField()
-    levels = models.ManyToManyField(Level, through='ProjectLevelAxis')
-    axes = models.ManyToManyField(Axis, through='ProjectLevelAxis')
-
-    def __str__(self):
-        return self.name
+        return f'{self.level.name} - {self.axis.name}'
 
 
 class Action(models.Model):
@@ -54,19 +42,18 @@ class Action(models.Model):
 
 
 class ProjectAction(models.Model):
-    """Modelo para representar a relação entre projeto e ação"""
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    """Modelo para representar uma ação"""
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
     axis = models.ForeignKey(Axis, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('project', 'action', 'axis', 'level')
+        unique_together = ('action', 'axis', 'level')
         db_table = 'planning_project_action'
 
     def __str__(self):
-        return f'{self.project.name} - {self.action.name} ({self.axis.name}, {self.level.name})'
+        return f'{self.action.name} ({self.axis.name}, {self.level.name})'
 
 
 class Task(models.Model):
