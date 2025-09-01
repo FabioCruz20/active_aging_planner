@@ -4,12 +4,11 @@
 <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
         <h1 class="text-3xl font-bold">Gerenciar Tarefas</h1>
-        <a href="{% url 'projects:manage_axis_level_actions' project.id axis.id level.id %}" 
+        <a href="{% url 'projects:manage_axis_level_actions' axis.id level.id %}" 
             class="text-blue-500 hover:text-blue-700 mb-2 inline-block">
             <i class="fas fa-arrow-left"></i>Voltar às Ações
         </a>
         <p class="text-gray-600">
-            Projeto: {{ project.name }} | 
             Eixo: {{ axis.name }} | 
             Nível: {{ level.name }} |
             Ação: {{ action.name }}
