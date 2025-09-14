@@ -55,6 +55,8 @@ class ProjectAction(models.Model):
     def __str__(self):
         return f'{self.action.name} ({self.axis.name}, {self.level.name})'
 
+    def count_finished_tasks(self):
+        return self.tasks.filter(status='DONE').count()
 
 class Task(models.Model):
     """Modelo para representar tarefas específicas de uma ação do projeto"""

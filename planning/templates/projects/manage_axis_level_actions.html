@@ -125,13 +125,20 @@
                                 <thead>
                                     <tr>
                                         <th class="text-left">Nome da Ação</th>
-                                        <th class="text-left" width="200">Ações</th>
+                                        <th class="text-left">Adicionado em</th>
+                                        <th class="text-left">Tarefas</th>
+                                        <th class="text-left">Tarefas concluídas</th>
+                                        <th class="text-left" width="140">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for project_action in project_actions %}
                                     <tr>
                                         <td>{{ project_action.action.name }}</td>
+                                        <td>{{ project_action.created_at }}</td>
+                                        <td>{{ project_action.tasks.count }}</td>                                        
+                                        <td>{{ project_action.count_finished_tasks }}</td>
+
                                         <td>
                                             <a href="{% url 'projects:manage_tasks' project_action.id %}" 
                                                class="text-indigo-500 mr-2">
