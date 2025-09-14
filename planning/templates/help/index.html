@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8 text-gray-800">Ajuda</h1>
+    
+    {% for section_name, topics in help_sections.items %}
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-700">{{ section_name }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for topic_name, topic in topics.items %}
+            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0">
+                        
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-medium mb-3 text-gray-800">{{ topic_name }}</h3>
+                        <div class="text-gray-600 space-y-2 whitespace-pre-line">{{ topic.content }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
