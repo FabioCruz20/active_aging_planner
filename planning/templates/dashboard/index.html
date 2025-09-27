@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="container mx-auto mt-2">
+    <h1 class="font-bold text-2xl">Dashboard</h1>
+    
+    <div class="mt-6">
+      <h2 class="font-semibold text-xl mb-4">Matriz de Ações por Eixo e Nível</h2>
+      
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b border-r">Níveis / Eixos</th>
+              {% for axis in axes %}
+                <th class="py-2 px-4 border-b border-r">{{ axis.name }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in matrix %}
+              <tr>
+                <td class="py-2 px-4 border-b border-r font-medium">{{ row.level.name }}</td>
+                {% for cell in row.cells %}
+                  <td class="py-2 px-4 border-b border-r text-center">
+                    <span class="inline-block bg-blue-100 text-blue-800 font-semibold px-3 py-1 rounded-full">
+                      {{ cell.count }}
+                    </span>
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="mt-6">
+        <p class="text-sm text-gray-600">
+          * Os números representam a quantidade de ações adicionadas em cada par eixo-nível.
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}
