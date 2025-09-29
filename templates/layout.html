@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Title{% endblock %}</title>
     {% tailwind_css %}
+    {% block javascript %}
+    {% endblock %}
 </head>
 <body class="bg-gray-100">
     <header class="w-full bg-indigo-500 p-2 text-white">

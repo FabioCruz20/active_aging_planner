@@ -4,6 +4,29 @@ from planning.models import ProjectLevelAxis, ProjectAction, Axis, Level
 
 def index_view(request):
     """View para o dashboard principal que mostra a contagem de ações por par eixo-nível"""
+    # Obter todos os níveis
+    levels = Level.objects.all().order_by('level_number')
+
+    level_axis_actions = {}
+    for level in levels:
+        level_axis_actions[level.name] = {
+            'axes': [],
+            'actions': []
+        }
+
+        for axis in Axis.objects.all():
+            level_axis_actions[level.name]['axes'].append(
+                axis.name
+            )
+            level_axis_actions[level.name]['actions'].append(
+                ProjectAction.objects.filter(
+                    axis=axis,
+                    level=level
+                ).count()
+            )
+
+    print(level_axis_actions)
+
     # Obter todos os pares eixo-nível
     project_level_axes = ProjectLevelAxis.objects.all()
     
@@ -48,7 +71,8 @@ def index_view(request):
         'project_level_axes': project_level_axes,
         'axes': axes,
         'levels': levels,
-        'matrix': matrix
+        'matrix': matrix,
+        'level_axis_actions': level_axis_actions
     }
     
     return render(request, 'dashboard/index.html', context)
