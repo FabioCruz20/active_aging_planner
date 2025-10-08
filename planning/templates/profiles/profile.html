@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold my-4">Perfil do Usuário</h1>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="shadow-md p-6 bg-white rounded-lg">
+                <h2 class="text-xl font-semibold border-b-2 pb-1 mb-2">Dashboard</h2>
+                <p>Visualize o resumo do seu progresso nas ações de cada eixo temático e nível.</p>
+                <a href="{% url 'dashboard:index' %}" class="bg-indigo-500 py-2 px-3 text-white mt-2 inline-block rounded hover:bg-indigo-700 transition-colors">Acessar Dashboard</a>
+            </div>
+            <div class="shadow-md p-6 bg-white rounded-lg">
+                <h2 class="text-xl font-semibold border-b-2 pb-1 mb-2">Matriz de Ações</h2>
+                <p>Gerencie e visualize as ações planejadas para cada eixo temático e nível.</p>
+                <a href="{% url 'projects:manage_actions_matrix' %}" class="bg-indigo-500 py-2 px-3 text-white mt-2 inline-block rounded hover:bg-indigo-700 transition-colors">Acessar Matriz de Ações</a>
+            </div>
+            <div class="shadow-md p-6 bg-white rounded-lg">
+                <h2 class="text-xl font-semibold border-b-2 pb-1 mb-2">Ajuda</h2>
+                <p>Obtenha orientações e suporte para utilizar o sistema.</p>
+                <a href="{% url 'help:index' %}" class="bg-indigo-500 py-2 px-3 text-white mt-2 inline-block rounded hover:bg-indigo-700 transition-colors">Acessar Ajuda</a>
+            </div>
+            <div class="shadow-md p-6 bg-white rounded-lg">
+                <h2 class="text-xl font-semibold border-b-2 pb-1 mb-2">Artigos científicos</h2>
+                <p>Consulte e gerencie os artigos científicos relacionados às ações do projeto.</p>
+                <a href="{% url 'papers:list' %}" class="bg-indigo-500 py-2 px-3 text-white mt-2 inline-block rounded hover:bg-indigo-700 transition-colors">Acessar Artigos Científicos</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -7,4 +7,5 @@ urlpatterns = [
     path('papers/', include('planning.urls.papers_urls')),
     path('help/', include('planning.urls.help_urls')),
     path('dashboard/', include('planning.urls.dashboard_urls')),
+    path('profile/', include('planning.urls.profiles_urls')),
 ]

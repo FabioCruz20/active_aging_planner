@@ -12,7 +12,7 @@ def login_view(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('dashboard:index')
+            return redirect('profiles:profile')
         else:
             messages.error(request, 'Usuário ou senha inválidos.')
     return render(request, 'authentication/login.html')
