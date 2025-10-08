@@ -20,5 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('admin/', admin.site.urls),
-    path('planning/', include('planning.urls'))
+    path('planning/', include('planning.urls')),
+    path('auth/', include('authentication.urls')),
 ]

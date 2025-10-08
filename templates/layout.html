@@ -13,8 +13,16 @@
     <header class="w-full bg-indigo-500 p-2 text-white">
         <nav class="container mx-auto flex justify-end gap-x-3">
             <a href="{% url 'projects:manage_actions_matrix' %}">Matriz de ações</a>
-            <a href="{% url 'papers:list' %}">Artigos científicos</a>
-            <a href="{% url 'help:index' %}">Ajuda</a>
+            | <a href="{% url 'papers:list' %}">Artigos científicos</a>
+            | <a href="{% url 'help:index' %}">Ajuda</a>
+            | {% if user.is_authenticated %}
+                <form action="{% url 'auth:logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'auth:login' %}">Login</a>
+            {% endif %}
         </nav>
     </header>
     {% block content %}
