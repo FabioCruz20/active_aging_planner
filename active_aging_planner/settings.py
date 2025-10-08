@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
+    'active_aging_planner.middlewares.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'active_aging_planner.urls'
