@@ -43,7 +43,6 @@ db.sqlite3-journal
 media/ # If you store user-uploaded media files locally
 static_root/ # If you collect static files here for deployment
 staticfiles/
-/static/
 local_settings.py
 
 # Django migrations (optional - uncomment if you want to ignore migrations)
