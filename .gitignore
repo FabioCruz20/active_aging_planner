@@ -102,3 +102,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
+
+# Ignorar arquivo de configuração do projeto no nginx
+deploy/nginx/**.prod.conf
