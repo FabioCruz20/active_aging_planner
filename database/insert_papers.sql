@@ -71,6 +71,6 @@ INSERT INTO planning_paper (title, url) VALUES
 ('O idoso e a cidade: o direito a uma cidade inclusiva - Jorge', 'http://repositorio.ufc.br/handle/riufc/76138'),
 ('O papel da família na utilização da Internet por portugueses de 50 e mais anos: uma análise de género - Silva et al. A', 'https://doi.org/10.31447/AS00032573.2021239.06'),
 ('The need for an Elderly centred mobility policy - Aguiar & Macário', 'https://doi.org/10.1016/j.trpro.2017.05.309'),
-('The Accidental "Age-Friendly City": Public Expectation and Subjective Experience in São Paulo - Duque & Oliveira', 'https://repositorium.sdum.uminho.pt/bitstream/1822/78574/2/2022_RLEC9.1_PT.pdf')
+('The Accidental "Age-Friendly City": Public Expectation and Subjective Experience in São Paulo - Duque & Oliveira', 'https://repositorium.sdum.uminho.pt/bitstream/1822/78574/2/2022_RLEC9.1_PT.pdf');
 
 COMMIT;
