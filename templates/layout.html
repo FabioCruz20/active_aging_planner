@@ -11,9 +11,9 @@
 </head>
 <body class="bg-gray-100">
     <header class="w-full bg-indigo-500 p-2 text-white">
-        <nav class="container mx-auto flex justify-end gap-x-3">
+        <nav class="container mx-auto flex justify-end gap-x-3 px-4">
             <a href="{% url 'profiles:profile' %}">Perfil</a>
-            | <a href="{% url 'projects:manage_actions_matrix' %}">Matriz de ações</a>
+            | <a href="{% url 'projects:manage_actions_matrix' %}">Ações</a>
             | <a href="{% url 'papers:index' %}">Artigos científicos</a>
             | <a href="{% url 'help:index' %}">Ajuda</a>
             | {% if user.is_authenticated %}

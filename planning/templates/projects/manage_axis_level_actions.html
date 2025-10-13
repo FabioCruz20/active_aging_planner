@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
-{% block title %}Gerenciar Ações - {{ axis.name }} / {{ level.name }}{% endblock %}
+{% block title %}Gerenciar Ações - {{ axis.name }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4 mx-auto">
+<div class="container mt-4 px-4 mx-auto">
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -17,13 +17,12 @@
             <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <strong>Eixo:</strong> {{ axis.name }} | 
-                        <strong>Nível:</strong> {{ level.name }}
+                        <strong>Eixo:</strong> {{ axis.name }}
                     </h5>
                 </div>
                 <div class="card-body">
                     <p class="text-muted">
-                        Gerencie as ações específicas para a combinação {{ axis.name }} / {{ level.name }}.
+                        Gerencie as ações específicas para a combinação {{ axis.name }}.
                     </p>
                 </div>
             </div>
@@ -114,7 +113,7 @@
             <div class="card bg-white rounded-lg shadow p-6 mb-4">
                 <div class="card-header border-b border-gray-300 p-1">
                     <h5 class="mb-0">
-                        <i class="fas fa-list"></i> Ações
+                        <i class="fas fa-list"></i> Ações adicionadas:
                         <span class="badge badge-primary ml-2">{{ project_actions|length }}</span>
                     </h5>
                 </div>
@@ -124,7 +123,7 @@
                             <table class="table table-striped w-full">
                                 <thead>
                                     <tr>
-                                        <th class="text-left">Nome da Ação</th>
+                                        <th class="text-left w-1/2">Nome da Ação</th>
                                         <th class="text-left">Adicionado em</th>
                                         <th class="text-left">Tarefas</th>
                                         <th class="text-left">Tarefas concluídas</th>
@@ -135,7 +134,7 @@
                                     {% for project_action in project_actions %}
                                     <tr>
                                         <td>{{ project_action.action.name }}</td>
-                                        <td>{{ project_action.created_at }}</td>
+                                        <td>{{ project_action.created_at|date:"d/m/Y H:i" }}</td>
                                         <td>{{ project_action.tasks.count }}</td>                                        
                                         <td>{{ project_action.count_finished_tasks }}</td>
 
