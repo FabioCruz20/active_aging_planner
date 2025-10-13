@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="container mx-auto">
+<div class="container px-4 mx-auto">
     <div class="mt-2 mb-4">
-        <h1 class="font-bold text-2xl">Matriz de Ações</h1>
+        <h1 class="font-bold text-2xl">Ações nos eixos temáticos</h1>
     </div>
 
     <div class="mb-6">
@@ -13,11 +13,10 @@
             <table class="w-full border-collapse border border-gray-300">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="border border-gray-300 p-3 text-left font-semibold">Eixo Temático / Nível</th>
+                        <th class="border border-gray-300 p-3 text-left font-semibold w-1/3">Eixo Temático / Nível</th>
                         {% for level in levels %}
-                        <th class="border border-gray-300 p-3 text-center font-semibold min-w-48">
-                            Nível {{ level.level_number }}<br>
-                            <span class="text-sm font-normal">{{ level.name }}</span>
+                        <th class="border border-gray-300 p-3 text-center font-semibold">
+                            Ações
                         </th>
                         {% endfor %}
                     </tr>
@@ -33,25 +32,36 @@
                             {% for level_key, cell_data in level_data.items %}
                                 {% if level_key == level %}
                                     <!-- Link para gerenciar ações -->
-                                    <div class="mb-3">
+                                    <div class="flex items-center">
                                         <a href="{% url 'projects:manage_axis_level_actions' axis.id level.id %}" 
                                            class="inline-block px-3 py-2 bg-indigo-500 text-white text-sm rounded hover:bg-indigo-700 transition-colors">
                                             <i class="fas fa-cog"></i> Gerenciar Ações
                                         </a>
-                                        <div class="mt-1 text-xs text-gray-600">
-                                            {{ cell_data.actions.count }} ação{{ cell_data.actions.count|pluralize:"es" }}
+                                        <div class="text-sm text-gray-600 flex-1">
+                                            {{ cell_data.actions.count }} 
+                                            {% if cell_data.actions.count == 1 %} 
+                                                ação
+                                            {% else %} 
+                                                ações
+                                            {% endif %}
+                                            no total
+                                        </div>
+                                        
+                                        <div class="text-sm text-gray-600 flex-1">
+                                            {{ cell_data.completed_actions }} completas
+                                        </div>
+
+                                        <div class="text-sm text-gray-600 flex-1">
+                                            {{ cell_data.total_actions }} adicionadas
+                                        </div>
+
+                                        <div class="text-sm text-gray-600 flex-2">
+                                            <span class="font-medium">Progresso</span>:
+                                            {{ cell_data.progress|floatformat:1 }}%
+                                            <span class="text-xs">({{ cell_data.completed_actions }}/{{ cell_data.total_actions }} ações completas)</span>
                                         </div>
                                     </div>
-                                    
-                                    <div class="mt-2">
-                                        <div class="text-sm">
-                                            <div class="font-medium">Progresso:</div>
-                                            <div class="text-gray-600">
-                                                {{ cell_data.progress|floatformat:1 }}%
-                                                <span class="text-xs">({{ cell_data.completed_actions }}/{{ cell_data.total_actions }} ações completas)</span>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 {% endif %}
                             {% empty %}
                                 <!-- Link para gerenciar ações quando não há dados -->
@@ -91,8 +101,8 @@
     <div class="mt-6 p-4 bg-blue-50 rounded">
         <h3 class="font-semibold mb-2">Como usar esta matriz:</h3>
         <ul class="text-sm text-gray-700 space-y-1">
-            <li>• Cada célula representa a combinação de um eixo temático com um nível de maturidade</li>
-            <li>• Clique em "Gerenciar Ações" para adicionar, editar ou remover ações para cada combinação eixo/nível</li>
+            <li>• Cada célula exibe dados sobre as ações no eixo temático</li>
+            <li>• Clique em "Gerenciar Ações" para adicionar, editar ou remover ações no eixo</li>
             <li>• O número de ações é exibido abaixo do botão de gerenciamento</li>
             <li>• O progresso é calculado automaticamente com base nas ações que têm todas as suas tarefas concluídas</li>
             <li>• Para aumentar o progresso, complete todas as tarefas de cada ação</li>
