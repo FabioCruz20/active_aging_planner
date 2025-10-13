@@ -10,6 +10,7 @@ class LoginRequiredMiddleware:
     def __call__(self, request):
         path = request.path
         allowed_urls = [
+            reverse('landing_page'),
             reverse('auth:login'),
         ]
 

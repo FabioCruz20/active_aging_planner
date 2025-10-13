@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework Digital – Cidades Inteligentes e Envelhecimento Ativo</title>
+    {% load static %}
+    {% load heroicons %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6F63F2',
+                        'primary-dark': '#4E47C4',
+                        title: '#2B3240',
+                        text: '#5C6575',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Efeito de partículas */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+        
+        /* Efeito parallax */
+        .parallax {
+            position: relative;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Estilo para os cards */
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(111, 99, 242, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6F63F2;
+        }
+        
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="text-text overflow-x-hidden">
+    <!-- Sidebar Menu -->
+    <div class="fixed top-0 left-0 h-screen w-20 bg-white shadow-lg z-50 flex flex-col items-center pt-8">
+        <div class="w-12 h-12 bg-primary rounded-lg mb-12 flex items-center justify-center">
+            <!-- Logo minimalista -->
+            <div class="w-6 h-6 bg-white rounded-sm"></div>
+        </div>
+        <nav class="flex flex-col gap-8">
+            <a href="#inicio" class="w-10 h-10 flex items-center justify-center rounded-full text-text hover:bg-primary hover:text-white transition-all duration-300 active:bg-primary active:text-white">
+                {% heroicon_outline "home" variant="outline" %}
+            </a>
+            <a href="#acoes" class="w-10 h-10 flex items-center justify-center rounded-full text-text hover:bg-primary hover:text-white transition-all duration-300">
+                {% heroicon_outline "check-circle" variant="outline" %}
+            </a>
+            <a href="#organizacao" class="w-10 h-10 flex items-center justify-center rounded-full text-text hover:bg-primary hover:text-white transition-all duration-300">
+                {% heroicon_outline "clipboard-document-list" variant="outline" %}
+            </a>
+            <a href="#painel" class="w-10 h-10 flex items-center justify-center rounded-full text-text hover:bg-primary hover:text-white transition-all duration-300">
+                {% heroicon_outline "chart-bar" variant="outline" %}
+            </a>
+            <a href="#contato" class="w-10 h-10 flex items-center justify-center rounded-full text-text hover:bg-primary hover:text-white transition-all duration-300">
+                {% heroicon_outline "envelope" variant="outline" %}
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-20">
+        <!-- Hero Section -->
+        <section id="inicio" class="relative h-screen flex items-center overflow-hidden">
+            <div class="particles-container">
+                <div id="particles-js"></div>
+            </div>
+            <div class="container mx-auto px-8 max-w-7xl">
+                <div class="max-w-3xl z-10 relative">
+                    <h1 class="text-4xl md:text-5xl font-bold text-title mb-6">Cidades Inteligentes para o Envelhecimento Ativo.</h1>
+                    <p class="text-xl mb-8">Planeje, organize e acompanhe estratégias reais para uma cidade mais humana e conectada.</p>
+                    <ul class="mb-8 space-y-2">
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-primary rounded-full mr-3"></span>
+                            +80 ações validadas em todo o mundo.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-primary rounded-full mr-3"></span>
+                            Painel visual de impacto e progresso.
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-2 h-2 bg-primary rounded-full mr-3"></span>
+                            Organização de tarefas e indicadores em um só lugar.
+                        </li>
+                    </ul>
+                    <a href="#" class="inline-block px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-md transition-colors duration-300 mb-4">
+                        Clique aqui para iniciar
+                    </a>
+                    <p class="text-sm text-gray-500">Sem cadastro obrigatório • Explore gratuitamente no primeiro acesso.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ações Validadas -->
+        <section id="acoes" class="py-20 bg-white">
+            <div class="container mx-auto px-8 max-w-7xl">
+                <h2 class="text-3xl font-bold text-title text-center mb-3">Mais de 80 ações validadas no mundo todo.</h2>
+                <p class="text-center max-w-3xl mx-auto mb-16">Navegue por um acervo global de iniciativas reais em envelhecimento ativo, com base em evidências e boas práticas urbanas.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card 1 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "map" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Mobilidade e acessibilidade</h3>
+                        <p class="text-text">Soluções para deslocamento seguro e autônomo de idosos em ambientes urbanos.</p>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "heart" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Saúde e bem-estar</h3>
+                        <p class="text-text">Iniciativas que promovem qualidade de vida e envelhecimento saudável.</p>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "computer-desktop" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Inclusão digital e social</h3>
+                        <p class="text-text">Estratégias para conectar idosos à tecnologia e combater o isolamento.</p>
+                    </div>
+                    
+                    <!-- Card 4 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "users" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Cultura e participação</h3>
+                        <p class="text-text">Ações que incentivam o protagonismo e engajamento comunitário dos idosos.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-block px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium rounded-md transition-colors duration-300">
+                        Explorar Ações Validadas
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Organização e Planejamento -->
+        <section id="organizacao" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-8 max-w-7xl">
+                <h2 class="text-3xl font-bold text-title text-center mb-3">Organize suas ações e tarefas.</h2>
+                <p class="text-center max-w-3xl mx-auto mb-16">Planeje o desenvolvimento das suas iniciativas com clareza: defina prioridades, atribua responsabilidades e acompanhe resultados em tempo real.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "list-bullet" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Listas e metas por eixo temático</h3>
+                        <p class="text-text">Organize suas iniciativas em categorias e defina objetivos claros para cada área de atuação.</p>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "calendar" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Atribuição de tarefas e prazos</h3>
+                        <p class="text-text">Delegue responsabilidades e estabeleça cronogramas realistas para sua equipe.</p>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "chart-bar-square" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Visualização de progresso e status</h3>
+                        <p class="text-text">Acompanhe o andamento de cada iniciativa com indicadores visuais de fácil compreensão.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-block px-6 py-3 bg-primary hover:bg-primary-dark text-white font-medium rounded-md transition-colors duration-300">
+                        Começar meu Planejamento
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Painel de Impacto -->
+        <section id="painel" class="py-20 bg-white">
+            <div class="container mx-auto px-8 max-w-7xl">
+                <h2 class="text-3xl font-bold text-title text-center mb-3">Analise o impacto da sua cidade.</h2>
+                <p class="text-center max-w-3xl mx-auto mb-16">Tenha uma visão integrada de todas as suas ações em um painel visual. Monitore resultados, indicadores e descubra quais iniciativas estão transformando mais vidas.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "presentation-chart-line" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Dashboard interativo</h3>
+                        <p class="text-text">Visualize dados em tempo real com gráficos dinâmicos e personalizáveis.</p>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "globe-americas" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Comparativo por território e eixo</h3>
+                        <p class="text-text">Compare o desempenho entre diferentes regiões e áreas temáticas.</p>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="card bg-white p-6 rounded-lg shadow-md">
+                        <div class="card-icon mb-4">
+                            {% heroicon_solid "document-arrow-down" variant="solid" %}
+                        </div>
+                        <h3 class="text-xl font-semibold text-title mb-2">Exportação de relatórios e métricas</h3>
+                        <p class="text-text">Gere documentos detalhados para apresentações e prestações de contas.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#" class="inline-block px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white font-medium rounded-md transition-colors duration-300">
+                        Ver Painel de Impacto
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contato" class="bg-title text-gray-300 py-12">
+            <div class="container mx-auto px-8 max-w-7xl">
+                <div class="text-center">
+                    <p class="mb-6 max-w-2xl mx-auto">Framework desenvolvido com base em estudos internacionais sobre envelhecimento ativo e cidades inteligentes. Projeto aberto e colaborativo.</p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <span class="sr-only">GitHub</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="mt-8 text-sm text-gray-400">&copy; 2023 Framework Digital. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuração das partículas
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#6F63F2"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#6F63F2",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // Navegação suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
