@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Title{% endblock %}</title>
     {% tailwind_css %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6F63F2',
+                        'primary-dark': '#4E47C4',
+                        title: '#2B3240',
+                        text: '#5C6575',
+                    }
+                }
+            }
+        }
+    </script>
     {% block javascript %}
     {% endblock %}
 </head>
