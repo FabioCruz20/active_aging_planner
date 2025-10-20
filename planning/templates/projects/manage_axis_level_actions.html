@@ -1,172 +1,251 @@
 {% extends 'layout.html' %}
+{% load heroicons %}
 
-{% block title %}Gerenciar Ações - {{ axis.name }}{% endblock %}
+{% block title %}Framework Smart Cities Idoso | Gerenciar Ações - {{ axis.name }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4 px-4 mx-auto">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="font-bold text-2xl">Gerenciar Ações</h1>
-                <a href="{% url 'projects:manage_actions_matrix' %}" 
-                    class="text-blue-500 hover:text-blue-700">
-                    <i class="fas fa-arrow-left"></i> Voltar à Matriz
-                </a>
-            </div>
-            
-            <div class="card bg-white rounded-lg shadow p-6 mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <strong>Eixo:</strong> {{ axis.name }}
-                    </h5>
+<!-- Background com gradiente -->
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div class="container px-4 mx-auto py-8">
+        <!-- Header modernizado -->
+        <div class="relative mb-8">
+            <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl opacity-10"></div>
+            <div class="relative p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        {% heroicon_solid "cog-6-tooth" class="w-10 h-10 text-indigo-600 mr-4" %}
+                        <div>
+                            <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                                Gerenciar Ações
+                            </h1>
+                            <p class="text-gray-600 mt-1">{{ axis.name }}</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'projects:manage_actions_matrix' %}" 
+                       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-xl hover:from-gray-600 hover:to-gray-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        {% heroicon_solid "arrow-left" class="w-5 h-5 mr-2" %}
+                        Voltar à Matriz
+                    </a>
                 </div>
-                <div class="card-body">
-                    <p class="text-muted">
-                        Gerencie as ações específicas para a combinação {{ axis.name }}.
-                    </p>
-                </div>
             </div>
+        </div>
 
-            <!-- Formulário para adicionar ação existente -->
-            <div class="card bg-white rounded-lg shadow p-6 mb-4">
-                <div class="card-header">
-                    <h5 class="mb-3">
-                        <i class="fas fa-plus"></i>
-                        <span class="font-bold">Adicionar Ação Existente</span>
-                    </h5>
+        <!-- Formulário para adicionar ação existente -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+                <div class="flex items-center">
+                    {% heroicon_solid "plus" class="w-6 h-6 text-white mr-3" %}
+                    <h2 class="text-xl font-bold text-white">Adicionar Nova Ação</h2>
                 </div>
-                <div class="card-body">
-                    {% if available_actions_to_add %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="row flex">
-                                <div class="col-md-8 basis-2/3">
-                                    <div class="form-group flex gap-x-3 mb-3">
-                                        <label for="selected_action_name" class="font-medium">Selecionar Ação:</label>
-                                        <select 
-                                            class="form-control grow border border-gray-300 rounded px-2 py-1" 
-                                            id="selected_action_name" 
-                                            name="selected_action_name"
-                                            onchange="toggleCustomInput()"
-                                            required>
-                                            <option value="">-- Selecione uma ação --</option>
+            </div>
+            <div class="p-6">
+                {% if available_actions_to_add %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="space-y-6">
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div class="md:col-span-2 space-y-4">
+                                    <!-- Select com pesquisa -->
+                                    <div class="space-y-2">
+                                        <label for="action_search" class="block text-sm font-medium text-gray-700">
+                                            Pesquisar e Selecionar Ação:
+                                        </label>
+                                        <div class="relative">
+                                            <input 
+                                                type="text" 
+                                                id="action_search"
+                                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                                                placeholder="Digite para pesquisar ações..."
+                                                onkeyup="filterActions()"
+                                                onfocus="showDropdown()"
+                                                autocomplete="off">
+                                            {% heroicon_solid "magnifying-glass" class="absolute right-3 top-3 w-5 h-5 text-gray-400" %}
+                                        </div>
+                                        
+                                        <!-- Dropdown de ações -->
+                                        <div id="actions_dropdown" class="hidden fixed z-50 bg-white border border-gray-300 rounded-xl shadow-lg max-h-60 overflow-y-auto">
                                             {% for action in available_actions_to_add %}
-                                                <option value="{{ action.name }}">{{ action.name }}</option>
+                                                <div class="action-option px-4 py-3 hover:bg-indigo-50 cursor-pointer border-b border-gray-100 last:border-b-0" 
+                                                     data-value="{{ action.name }}" 
+                                                     onclick="selectAction('{{ action.name }}')">
+                                                    <div class="flex items-start">
+                                                        {% heroicon_solid "clipboard-document-list" class="w-5 h-5 text-indigo-600 mr-3 flex-shrink-0 mt-0.5" %}
+                                                        <span class="text-gray-800 break-words leading-relaxed">{{ action.name }}</span>
+                                                    </div>
+                                                </div>
                                             {% endfor %}
-                                            <option value="custom">Criar ação personalizada</option>
-                                        </select>
+                                            <div class="action-option px-4 py-3 hover:bg-purple-50 cursor-pointer border-t-2 border-purple-200 bg-purple-25" 
+                                                 data-value="custom" 
+                                                 onclick="selectAction('custom')">
+                                                <div class="flex items-start">
+                                                    {% heroicon_solid "plus-circle" class="w-5 h-5 text-purple-600 mr-3 flex-shrink-0 mt-0.5" %}
+                                                    <span class="font-medium text-purple-600 break-words leading-relaxed">Criar ação personalizada</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Hidden input para o valor selecionado -->
+                                        <input type="hidden" id="selected_action_name" name="selected_action_name" required>
                                     </div>
                                     
                                     <!-- Campo para ação personalizada -->
-                                    <div class="form-group flex gap-x-3 mb-3" id="custom_action_div" style="display: none;">
-                                        <label for="custom_action_name" class="font-medium">Nome da Ação:</label>
+                                    <div id="custom_action_div" class="hidden space-y-2">
+                                        <label for="custom_action_name" class="block text-sm font-medium text-gray-700">
+                                            Nome da Nova Ação:
+                                        </label>
                                         <input 
                                             type="text" 
-                                            class="form-control grow border border-gray-300 rounded px-2 py-1" 
                                             id="custom_action_name" 
                                             name="custom_action_name"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                             placeholder="Digite o nome da nova ação">
                                     </div>
                                 </div>
-                                <div class="col-md-4 basis-1/3">
-                                    <div class="form-group">
-                                        <button type="submit" name="add_action" 
-                                            class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">
-                                            <i class="fas fa-plus"></i> Adicionar Ação
-                                        </button>
-                                    </div>
+                                
+                                <div class="flex items-end">
+                                    <button type="submit" name="add_action" 
+                                        class="w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                                        {% heroicon_solid "plus" class="w-5 h-5 mr-2" %}
+                                        Adicionar Ação
+                                    </button>
                                 </div>
                             </div>
-                        </form>
-                    {% else %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="row flex">
-                                <div class="col-md-8 basis-2/3">
-                                    <div class="form-group flex gap-x-3 mb-3">
-                                        <label for="custom_action_name" class="font-medium">Nome da Nova Ação:</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control grow border border-gray-300 rounded px-2 py-1" 
-                                            id="custom_action_name" 
-                                            name="custom_action_name"
-                                            placeholder="Digite o nome da nova ação"
-                                            required>
-                                        <input type="hidden" name="selected_action_name" value="custom">
-                                    </div>
-                                </div>
-                                <div class="col-md-4 basis-1/3">
-                                    <div class="form-group">
-                                        <button type="submit" name="add_action" 
-                                            class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">
-                                            <i class="fas fa-plus"></i> Criar Ação
-                                        </button>
-                                    </div>
-                                </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="md:col-span-2">
+                                <label for="custom_action_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nome da Nova Ação:
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="custom_action_name" 
+                                    name="custom_action_name"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                                    placeholder="Digite o nome da nova ação"
+                                    required>
+                                <input type="hidden" name="selected_action_name" value="custom">
                             </div>
-                        </form>
-                    {% endif %}
+                            <div class="flex items-end">
+                                <button type="submit" name="add_action" 
+                                    class="w-full inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-xl hover:from-indigo-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                                    {% heroicon_solid "plus" class="w-5 h-5 mr-2" %}
+                                    Criar Ação
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Lista de ações existentes -->
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-green-500 to-teal-600 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        {% heroicon_solid "clipboard-document-list" class="w-6 h-6 text-white mr-3" %}
+                        <h2 class="text-xl font-bold text-white">Ações Adicionadas</h2>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+                        <span class="text-white font-bold">{{ project_actions|length }}</span>
+                    </div>
                 </div>
             </div>
+            <div class="p-6">
+                {% if project_actions %}
+                    <!-- Grade de cards com 2 colunas -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        {% for project_action in project_actions %}
+                        <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 group">
+                            <!-- Header do card -->
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-lg text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors duration-200">
+                                        {{ project_action.action.name }}
+                                    </h3>
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        {% heroicon_solid "calendar" class="w-4 h-4 mr-1" %}
+                                        {{ project_action.created_at|date:"d/m/Y H:i" }}
+                                    </div>
+                                </div>
+                            </div>
 
-            <!-- Lista de ações existentes -->
-            <div class="card bg-white rounded-lg shadow p-6 mb-4">
-                <div class="card-header border-b border-gray-300 p-1">
-                    <h5 class="mb-0">
-                        <i class="fas fa-list"></i> Ações adicionadas:
-                        <span class="badge badge-primary ml-2">{{ project_actions|length }}</span>
-                    </h5>
-                </div>
-                <div class="card-body mt-2">
-                    {% if project_actions %}
-                        <div class="table-responsive">
-                            <table class="table table-striped w-full">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left w-1/2">Nome da Ação</th>
-                                        <th class="text-left">Adicionado em</th>
-                                        <th class="text-left">Tarefas</th>
-                                        <th class="text-left">Tarefas concluídas</th>
-                                        <th class="text-left" width="140">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for project_action in project_actions %}
-                                    <tr>
-                                        <td>{{ project_action.action.name }}</td>
-                                        <td>{{ project_action.created_at|date:"d/m/Y H:i" }}</td>
-                                        <td>{{ project_action.tasks.count }}</td>                                        
-                                        <td>{{ project_action.count_finished_tasks }}</td>
+                            <!-- Estatísticas -->
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="bg-blue-50 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-blue-600">{{ project_action.tasks.count }}</div>
+                                    <div class="text-xs text-blue-500 font-medium">Total de Tarefas</div>
+                                </div>
+                                <div class="bg-green-50 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-green-600">{{ project_action.count_finished_tasks }}</div>
+                                    <div class="text-xs text-green-500 font-medium">Concluídas</div>
+                                </div>
+                            </div>
 
-                                        <td>
-                                            <a href="{% url 'projects:manage_tasks' project_action.id %}" 
-                                               class="text-indigo-500 mr-2">
-                                                <i class="fas fa-tasks"></i> Tarefas
-                                            </a>
-                                            <form method="post" style="display: inline;">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="project_action_id" value="{{ project_action.id }}">
-                                                <button type="submit" 
-                                                        name="delete_action" 
-                                                        class="text-red-600"
-                                                        onclick="return confirm('Tem certeza que deseja remover esta ação do projeto?')">
-                                                    <i class="fas fa-trash"></i> Remover
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                            <!-- Barra de progresso -->
+                            {% if project_action.tasks.count > 0 %}
+                                {% widthratio project_action.count_finished_tasks project_action.tasks.count 100 as progress_percentage %}
+                                <div class="mb-6">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-medium text-gray-700">Progresso</span>
+                                        <span class="text-sm font-bold text-gray-900">{{ progress_percentage }}%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                                        <div class="h-full bg-gradient-to-r from-green-500 to-teal-500 rounded-full transition-all duration-500 ease-out" 
+                                             style="width: {{ progress_percentage }}%"></div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="mb-6">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm font-medium text-gray-700">Progresso</span>
+                                        <span class="text-sm font-bold text-gray-400">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="h-full bg-gray-300 rounded-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Botões de ação -->
+                            <div class="flex space-x-3">
+                                <a href="{% url 'projects:manage_tasks' project_action.id %}" 
+                                   class="flex-1 inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-indigo-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg">
+                                    {% heroicon_solid "list-bullet" class="w-4 h-4 mr-2" %}
+                                    Tarefas
+                                </a>
+                                <form method="post" class="flex-shrink-0">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="project_action_id" value="{{ project_action.id }}">
+                                    <button type="submit" 
+                                            name="delete_action" 
+                                            class="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white text-sm font-medium rounded-lg hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg"
+                                            onclick="return confirm('Tem certeza que deseja remover esta ação do projeto?')">
+                                        {% heroicon_solid "trash" class="w-4 h-4" %}
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    {% else %}
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
-                            Nenhuma ação foi adicionada ainda para esta combinação de eixo e nível.
-                            Use o formulário acima para adicionar a primeira ação.
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <!-- Estado vazio -->
+                    <div class="text-center py-12">
+                        <div class="mx-auto w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
+                            {% heroicon_solid "clipboard-document-list" class="w-12 h-12 text-indigo-500" %}
                         </div>
-                    {% endif %}
-                </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Nenhuma ação adicionada</h3>
+                        <p class="text-gray-500 mb-6">Use o formulário acima para adicionar a primeira ação a este eixo temático.</p>
+                        <div class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-lg">
+                            {% heroicon_solid "arrow-up" class="w-4 h-4 mr-2" %}
+                            Comece adicionando uma ação
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -187,5 +266,123 @@ function toggleCustomInput() {
         customInput.value = '';
     }
 }
+
+function showDropdown() {
+    const dropdown = document.getElementById('actions_dropdown');
+    const searchInput = document.getElementById('action_search');
+    
+    if (dropdown && searchInput) {
+        // Posicionar o dropdown dinamicamente
+        const inputRect = searchInput.getBoundingClientRect();
+        
+        // Usar a mesma largura do campo de filtro
+        const inputWidth = inputRect.width;
+        
+        dropdown.style.width = inputWidth + 'px';
+        dropdown.style.left = inputRect.left + 'px';
+        dropdown.style.top = (inputRect.bottom + 4) + 'px';
+        
+        dropdown.classList.remove('hidden');
+    }
+}
+
+function hideDropdown() {
+    const dropdown = document.getElementById('actions_dropdown');
+    dropdown.classList.add('hidden');
+}
+
+function filterActions() {
+    const searchInput = document.getElementById('action_search');
+    const filter = searchInput.value.toLowerCase();
+    const dropdown = document.getElementById('actions_dropdown');
+    const options = dropdown.getElementsByClassName('action-option');
+    
+    // Mostrar dropdown quando começar a digitar
+    if (filter.length > 0) {
+        showDropdown();
+    }
+    
+    let hasVisibleOptions = false;
+    
+    for (let i = 0; i < options.length; i++) {
+        const option = options[i];
+        const text = option.textContent || option.innerText;
+        
+        // Não filtrar a opção "Criar ação personalizada"
+        if (option.getAttribute('data-value') === 'custom') {
+            option.style.display = '';
+            hasVisibleOptions = true;
+            continue;
+        }
+        
+        if (text.toLowerCase().indexOf(filter) > -1) {
+            option.style.display = '';
+            hasVisibleOptions = true;
+        } else {
+            option.style.display = 'none';
+        }
+    }
+    
+    // Esconder dropdown se não houver opções visíveis
+    if (!hasVisibleOptions && filter.length > 0) {
+        hideDropdown();
+    }
+}
+
+function selectAction(actionName) {
+    const searchInput = document.getElementById('action_search');
+    const hiddenInput = document.getElementById('selected_action_name');
+    const customDiv = document.getElementById('custom_action_div');
+    const customInput = document.getElementById('custom_action_name');
+    
+    if (actionName === 'custom') {
+        searchInput.value = 'Criar ação personalizada';
+        hiddenInput.value = 'custom';
+        customDiv.classList.remove('hidden');
+        customInput.required = true;
+        customInput.focus();
+    } else {
+        searchInput.value = actionName;
+        hiddenInput.value = actionName;
+        customDiv.classList.add('hidden');
+        customInput.required = false;
+        customInput.value = '';
+    }
+    
+    hideDropdown();
+}
+
+// Fechar dropdown quando clicar fora
+document.addEventListener('click', function(event) {
+    const searchInput = document.getElementById('action_search');
+    const dropdown = document.getElementById('actions_dropdown');
+    
+    if (searchInput && dropdown && !searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+        hideDropdown();
+    }
+});
+
+// Reposicionar dropdown ao redimensionar a janela
+window.addEventListener('resize', function() {
+    const dropdown = document.getElementById('actions_dropdown');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        showDropdown();
+    }
+});
+
+// Mostrar todas as opções quando focar no campo
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('action_search');
+    if (searchInput) {
+        searchInput.addEventListener('focus', function() {
+            showDropdown();
+            // Mostrar todas as opções quando focar
+            const options = document.querySelectorAll('.action-option');
+            options.forEach(option => {
+                option.style.display = '';
+            });
+        });
+    }
+});
 </script>
 {% endblock %}
