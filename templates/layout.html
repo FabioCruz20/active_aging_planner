@@ -33,7 +33,7 @@
                 | <a href="{% url 'projects:manage_actions_matrix' %}">Ações</a>
                 | <a href="{% url 'papers:index' %}">Artigos científicos</a>
                 | <a href="{% url 'help:index' %}">Ajuda</a>
-                <form action="{% url 'auth:logout' %}" method="post" class="inline">
+                | <form action="{% url 'auth:logout' %}" method="post" class="inline">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
                 </form>
