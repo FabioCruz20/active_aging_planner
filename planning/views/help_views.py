@@ -24,20 +24,14 @@ def help_topics(request):
                 'content': '''Um Eixo Temático representa uma área específica de atuação no contexto do envelhecimento ativo, como saúde, participação social, segurança ou aprendizagem ao longo da vida. Os eixos ajudam a categorizar e organizar as ações de acordo com seus objetivos principais.
                 '''
             },
-            'O que é um Nível de Maturidade?': {
-                'icon': 'chart-bar',
-                'icon_variant': 'solid',
-                'content': '''O Nível de Maturidade indica o estágio de desenvolvimento de uma determinada ação ou iniciativa. Ele ajuda a identificar a complexidade e o progresso das ações, permitindo um desenvolvimento gradual e sustentável das iniciativas de envelhecimento ativo.
-                '''
-            }
         },
         'Guia Prático': {
             'Como gerenciar Ações?': {
                 'icon': 'clipboard',
                 'icon_variant': 'solid',
                 'content': '''As Ações são iniciativas específicas que contribuem para o envelhecimento ativo. Para gerenciar ações, você pode:
-                1. Criar uma nova ação com nome e descrição
-                2. Associar a ação a um eixo temático e nível de maturidade
+                1. Entrar em um eixo temático
+                2. Adicionar uma ação existente ou criar uma ação
                 3. Adicionar tarefas específicas para implementação
                 4. Acompanhar o progresso através da matriz de ações
                 '''
