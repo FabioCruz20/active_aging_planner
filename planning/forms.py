@@ -40,14 +40,14 @@ class TaskForm(forms.ModelForm):
         fields = ['title', 'description', 'status']
         widgets = {
             'title': forms.TextInput(attrs={
-                'class': 'block w-full mb-4'
+                'class': 'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
             }),
             'description': forms.Textarea(attrs={
-                'class': 'block w-full mb-4',
+                'class': 'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500',
                 'rows': 4
             }),
             'status': forms.Select(attrs={
-                'class': 'block w-full mb-4'
+                'class': 'block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
             }),
         }
 

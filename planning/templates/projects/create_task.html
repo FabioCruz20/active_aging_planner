@@ -1,55 +1,70 @@
 {% extends 'layout.html' %}
+{% load heroicons %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-4">
+<div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-        <h1 class="text-3xl font-bold mb-2">Nova Tarefa</h1>
-        <p class="text-gray-600">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
+                    {% heroicon_solid 'document-plus' class='w-6 h-6' %}
+                </span>
+                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Nova Tarefa</h1>
+            </div>
+            <a href="{% url 'projects:manage_tasks' project_action.id %}"
+               class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                {% heroicon_outline 'arrow-left' class='w-5 h-5' %}
+                Voltar
+            </a>
+        </div>
+        <p class="mt-2 text-gray-600">
             <strong>Ação</strong>: {{ action.name }}
         </p>
     </div>
 
-    <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
-        <form method="POST">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-3xl mx-auto">
+        <form method="POST" class="space-y-4">
             {% csrf_token %}
-            
-            <div class="mb-4">
-                <label for="{{ form.title.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
+
+            <div>
+                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700">
                     Título
                 </label>
-                {{ form.title }}
+                <div class="mt-1">{{ form.title }}</div>
                 {% if form.title.errors %}
-                    <p class="text-red-500 text-xs italic">{{ form.title.errors.0 }}</p>
+                    <p class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</p>
                 {% endif %}
             </div>
 
-            <div class="mb-4">
-                <label for="{{ form.description.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700">
                     Descrição
                 </label>
-                {{ form.description }}
+                <div class="mt-1">{{ form.description }}</div>
                 {% if form.description.errors %}
-                    <p class="text-red-500 text-xs italic">{{ form.description.errors.0 }}</p>
+                    <p class="text-red-600 text-sm mt-1">{{ form.description.errors.0 }}</p>
                 {% endif %}
             </div>
 
-            <div class="mb-4">
-                <label for="{{ form.status.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">
+            <div>
+                <label for="{{ form.status.id_for_label }}" class="block text-sm font-medium text-gray-700">
                     Status
                 </label>
-                {{ form.status }}
+                <div class="mt-1">{{ form.status }}</div>
                 {% if form.status.errors %}
-                    <p class="text-red-500 text-xs italic">{{ form.status.errors.0 }}</p>
+                    <p class="text-red-600 text-sm mt-1">{{ form.status.errors.0 }}</p>
                 {% endif %}
             </div>
 
-            <div class="flex items-center justify-between">
-                <button type="submit" 
-                        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <div class="flex items-center justify-between pt-2">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-sm">
+                    {% heroicon_solid 'check' class='w-5 h-5' %}
                     Salvar
                 </button>
-                <a href="{% url 'projects:manage_tasks' project_action.id %}" 
-                   class="text-blue-500 hover:text-blue-700">
+                <a href="{% url 'projects:manage_tasks' project_action.id %}"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                    {% heroicon_outline 'x-mark' class='w-5 h-5' %}
                     Cancelar
                 </a>
             </div>
