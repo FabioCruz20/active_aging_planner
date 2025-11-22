@@ -3,6 +3,7 @@
 {% block javascript %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
+{% block title %}Framework Smart Cities Idoso | Dashboard{% endblock %}
 {% block content %}
   <div class="container mx-auto px-4 lg:px-6 mt-4">
     <div class="flex items-center mb-6">
@@ -17,7 +18,7 @@
             {% heroicon_solid "table-cells" class="w-6 h-6 mr-2 opacity-90" %}
             <h2 class="font-semibold text-lg">Ações por eixo temático</h2>
           </div>
-          <span class="text-sm opacity-80">Contagem por eixo e nível</span>
+          <span class="text-sm opacity-80">Contagem por eixo temático</span>
         </div>
 
         <div class="overflow-x-auto bg-white">
@@ -50,7 +51,7 @@
         </div>
         <div class="px-5 py-3 bg-white">
           <p class="text-sm text-gray-600">
-            * Os números representam a quantidade de ações adicionadas em cada par eixo-nível.
+            * Os números representam a quantidade de ações adicionadas em cada eixo.
           </p>
         </div>
       </div>

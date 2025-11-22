@@ -29,7 +29,7 @@
         <nav class="container mx-auto flex justify-end gap-x-3 px-4">
             <a href="{% url 'landing_page' %}">Home</a>
             {% if user.is_authenticated %}
-                | <a href="{% url 'profiles:profile' %}">Perfil</a>
+                | <a href="{% url 'profiles:profile' %}">Telas</a>
                 | <a href="{% url 'dashboard:index' %}">Dashboard</a>
                 | <a href="{% url 'projects:manage_actions_matrix' %}">Ações</a>
                 | <a href="{% url 'papers:index' %}">Artigos científicos</a>

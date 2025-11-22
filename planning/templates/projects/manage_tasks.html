@@ -1,26 +1,34 @@
 {% extends 'layout.html' %}
 {% load heroicons %}
 
+{% block title%}Framework Smart Cities Idoso | Tarefas{% endblock %}
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
-                    {% heroicon_solid 'clipboard-document-list' class='w-6 h-6' %}
-                </span>
-                <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Gerenciar Tarefas</h1>
+<div class="container mx-auto px-4 py-6">
+    <div class="relative mb-6">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl opacity-10"></div>
+        <div class="relative p-4">
+
+            <div class="flex items-center justify-between gap-3">            
+                <div>
+                    <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
+                        {% heroicon_solid 'clipboard-document-list' class='w-6 h-6' %}
+                    </span>
+                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Gerenciar Tarefas</h1>
+                    </div>
+                    
+                    <p class="mt-2 text-gray-600">
+                        <strong>Eixo</strong>: {{ axis.name }} |
+                        <strong>Ação</strong>: {{ action.name }}
+                    </p>
+                </div>
+                <a href="{% url 'projects:manage_axis_level_actions' axis.id level.id %}" 
+                   class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-xl hover:from-gray-600 hover:to-gray-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                    {% heroicon_outline 'arrow-left' class='w-5 h-5 mr-2' %}
+                    Voltar às Ações
+                </a>
             </div>
-            <a href="{% url 'projects:manage_axis_level_actions' axis.id level.id %}" 
-               class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
-                {% heroicon_outline 'arrow-left' class='w-5 h-5' %}
-                Voltar às Ações
-            </a>
         </div>
-        <p class="mt-2 text-gray-600">
-            <strong>Eixo</strong>: {{ axis.name }} |
-            <strong>Ação</strong>: {{ action.name }}
-        </p>
     </div>
 
     <!-- Estatísticas -->

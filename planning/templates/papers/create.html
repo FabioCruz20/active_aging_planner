@@ -3,18 +3,24 @@
 {% block title %}Framework Smart Cities Idoso | Novo Artigo Científico{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 lg:px-6 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <div class="flex items-center gap-3">
-      <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
-        {% heroicon_solid 'document-plus' class='w-6 h-6' %}
-      </span>
-      <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Novo Artigo Científico</h1>
+<div class="container mx-auto px-4 lg:px-6 py-4">
+  <div class="relative mb-6">
+    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl opacity-10"></div>
+    <div class="relative p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
+            {% heroicon_solid 'document-plus' class='w-6 h-6' %}
+          </span>
+          <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Novo Artigo Científico</h1>
+        </div>
+        <a href="{% url 'papers:index' %}" 
+          class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-medium rounded-xl hover:from-gray-600 hover:to-gray-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+          {% heroicon_outline 'arrow-left' class='w-5 h-5 mr-2' %}
+          Voltar
+        </a>
+      </div>
     </div>
-    <a href="{% url 'papers:index' %}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
-      {% heroicon_outline 'arrow-left' class='w-5 h-5' %}
-      Voltar
-    </a>
   </div>
 
   <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
